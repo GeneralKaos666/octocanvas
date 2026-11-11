@@ -85,7 +85,7 @@ export default function ActionButtonsArea({
             disabled={isBusy}
             ariaBusy={isActionBusy("wallpaper-small")}
           >
-            {wallpaperDownloadLabel("wallpaper-small", "Badge (320x240)")}
+            {wallpaperDownloadLabel("wallpaper-small", "Badge (960x720)")}
           </PrimaryButton>
         </div>
         <div className={styles.SocialShareRow}>
