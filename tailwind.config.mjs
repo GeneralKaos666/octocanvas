@@ -50,6 +50,29 @@ export default {
           'gray-muted': '#909692',
           'gray-border': '#e4ebe6',
         },
+
+        // Violet Overdrive - Termux terminal theme (true black + neon pop, one purple highlight)
+        'violet-overdrive': {
+          'bg': '#000000',        // background
+          'fg': '#EDE6FF',        // foreground
+          'cursor': '#A855F7',    // cursor purple
+          'black': '#0D0714',     // color0
+          'red': '#FF2E63',       // color1
+          'green': '#00FF9C',     // color2
+          'yellow': '#FFE600',    // color3
+          'blue': '#2E9BFF',      // color4
+          'magenta': '#FF2ED1',   // color5
+          'cyan': '#00F0FF',      // color6
+          'silver': '#D8CCF0',    // color7
+          'gray': '#8A8F9E',      // color8
+          'red-bright': '#FF6FAE',    // color9
+          'green-bright': '#5CFFC0',  // color10
+          'yellow-bright': '#FFF566', // color11
+          'blue-bright': '#7AB8FF',   // color12
+          'purple': '#C77DFF',        // color13
+          'cyan-bright': '#7AFFFF',   // color14
+          'white': '#FFFFFF',         // color15
+        },
       },
 
       // Typography from Figma Design System
