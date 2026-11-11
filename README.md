@@ -17,7 +17,7 @@ A static web application that creates GitHub-themed collectibles from GitHub pro
 - 📱 **Multiple Sizes**: Export wallpapers in three sizes:
   - **Desktop**: 2560×1440 (ideal for monitors)
   - **Mobile**: 1170×2532 (ideal for modern smartphones)
-  - **Badge**: 320×240 (ideal for thumbnails or social media)
+  - **Badge**: 960×720 (3× supersampled, ideal for thumbnails or social media)
 - 💾 **Client-Side Export**: Convert SVG to PNG and download directly in the browser
 - ✨ **Animated Preview**: Particle effects and smooth animations in the preview
 

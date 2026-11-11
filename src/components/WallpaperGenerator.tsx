@@ -39,7 +39,12 @@ export interface WallpaperGeneratorRef {
 const SIZES = {
   desktop: { width: 2560, height: 1440, label: "Desktop (2560x1440)" },
   mobile: { width: 1179, height: 2556, label: "Mobile (1179x2556)" },
-  small: { width: 320, height: 240, label: "Badger (320x240)" },
+  // Badge exports supersampled at 3x: at native 320x240 the whole layout
+  // rasterizes at scale 0.24 (~11px text, ~3px contribution cells), which
+  // reads as blur anywhere it is displayed larger than 100%. Matches the
+  // Devémon card 3x export. Layout is fully proportional to width/height,
+  // so the design is identical, only pixel density changes.
+  small: { width: 960, height: 720, label: "Badge (960x720)" },
 };
 
 type SizeKey = keyof typeof SIZES;
