@@ -346,3 +346,36 @@
   align-items: center;
   gap: 0.25rem;
 }
+
+/* Violet Overdrive theme overrides (Termux palette: black base, neon pop, purple highlight) */
+.Card[data-theme="violet-overdrive"] .CardContent {
+  background: linear-gradient(
+    to bottom right,
+    rgba(13, 7, 20, 0.95),
+    rgba(0, 0, 0, 0.95),
+    rgba(13, 7, 20, 0.95)
+  );
+}
+
+.Card[data-theme="violet-overdrive"] .StatCard {
+  background-color: rgba(13, 7, 20, 0.5);
+}
+
+.Card[data-theme="violet-overdrive"] .StatLabel {
+  color: #00ff9c; /* color2 */
+}
+
+.Card[data-theme="violet-overdrive"] .Username,
+.Card[data-theme="violet-overdrive"] .StatValue {
+  color: #ede6ff; /* foreground */
+}
+
+.Card[data-theme="violet-overdrive"] .DisplayName {
+  color: #d8ccf0; /* color7 */
+}
+
+.Card[data-theme="violet-overdrive"] .HireBadge {
+  background-color: #00ff9c; /* color2 */
+  color: #000000;
+  border-color: #000000;
+}

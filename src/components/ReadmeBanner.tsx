@@ -23,6 +23,7 @@ import styles from "./ReadmeBanner.module.css";
 import sharedStyles from "./shared.module.css";
 import { copyPngBlobToClipboard } from "../utils/imageExport";
 import { downloadElementAsPng, elementToPngBlob } from "../utils/domExport";
+import { GENERATOR_THEME_PALETTES, type GeneratorTheme } from "../utils/generatorThemes";
 
 /** README banners are wide, so 2x keeps the exported file size reasonable. */
 const BANNER_EXPORT_SCALE = 2;
@@ -43,6 +44,7 @@ interface ReadmeBannerProps {
   showWebsite: boolean;
   showJoinDate: boolean;
   showBio: boolean;
+  theme?: GeneratorTheme;
 }
 
 interface ExtendedStats {
@@ -97,9 +99,10 @@ If you use a different filename or folder, update the Markdown path to match.`;
 
 const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
   (
-    { user, artType, availableForHire, showWebsite, showJoinDate, showBio },
+    { user, artType, availableForHire, showWebsite, showJoinDate, showBio, theme = "default" },
     ref
   ) => {
+    const palette = GENERATOR_THEME_PALETTES[theme];
     const [loading, setLoading] = useState(true);
     const [asciiArt, setAsciiArt] = useState<string>("");
     const [pixelArtData, setPixelArtData] = useState<string>("");
@@ -713,8 +716,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                 style={{
                   width: "1280px",
                   height: "320px",
-                  background:
-                    "linear-gradient(135deg, #0d1117 0%, #161b22 50%, #1c2128 100%)",
+                  background: palette.background,
                   position: "relative",
                   overflow: "hidden",
                 }}
@@ -727,8 +729,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                     right: "-50px",
                     width: "300px",
                     height: "300px",
-                    background:
-                      "radial-gradient(circle, rgba(94, 237, 131, 0.15) 0%, transparent 70%)",
+                    background: `radial-gradient(circle, ${palette.accentGlow} 0%, transparent 70%)`,
                     borderRadius: "50%",
                   }}
                 />
@@ -739,8 +740,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                     left: "-80px",
                     width: "400px",
                     height: "400px",
-                    background:
-                      "radial-gradient(circle, rgba(94, 237, 131, 0.1) 0%, transparent 70%)",
+                    background: `radial-gradient(circle, ${palette.accentGlowSoft} 0%, transparent 70%)`,
                     borderRadius: "50%",
                   }}
                 />
@@ -772,10 +772,10 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                         style={{
                           width: "256px",
                           height: "256px",
-                          border: "4px solid #5fed83",
+                          border: `4px solid ${palette.accent}`,
                           borderRadius: "8px",
-                          boxShadow: "0 0 20px rgba(94, 237, 131, 0.3)",
-                          backgroundColor: "#0d1117",
+                          boxShadow: `0 0 20px ${palette.accentGlowStrong}`,
+                          backgroundColor: palette.artSurface,
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "center",
@@ -784,12 +784,12 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                       >
                         <pre
                           style={{
-                            color: "#5fed83",
+                            color: palette.accent,
                             fontSize: "5.5px",
                             lineHeight: "5.5px",
                             fontFamily: "monospace",
                             margin: 0,
-                            textShadow: "0 0 10px rgba(94, 237, 131, 0.5)",
+                            textShadow: `0 0 10px ${palette.accentTextShadow}`,
                             letterSpacing: "0.5px",
                           }}
                         >
@@ -816,9 +816,9 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                           width: "256px",
                           height: "256px",
                           imageRendering: "pixelated",
-                          border: "4px solid #5fed83",
+                          border: `4px solid ${palette.accent}`,
                           borderRadius: "8px",
-                          boxShadow: "0 0 20px rgba(94, 237, 131, 0.3)",
+                          boxShadow: `0 0 20px ${palette.accentGlowStrong}`,
                         }}
                       />
                     </div>
@@ -840,9 +840,9 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                         style={{
                           width: "256px",
                           height: "256px",
-                          border: "4px solid #5fed83",
+                          border: `4px solid ${palette.accent}`,
                           borderRadius: "16px",
-                          boxShadow: "0 0 30px rgba(94, 237, 131, 0.4)",
+                          boxShadow: `0 0 30px ${palette.accentGlowStrong}`,
                         }}
                       />
                     </div>
@@ -864,9 +864,9 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                         style={{
                           width: "256px",
                           height: "256px",
-                          border: "4px solid #5fed83",
+                          border: `4px solid ${palette.accent}`,
                           borderRadius: "16px",
-                          boxShadow: "0 0 30px rgba(94, 237, 131, 0.4)",
+                          boxShadow: `0 0 30px ${palette.accentGlowStrong}`,
                         }}
                       />
                     </div>
@@ -895,7 +895,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                           style={{
                             fontSize: "48px",
                             fontWeight: "800",
-                            color: "#5fed83",
+                            color: palette.accent,
                             margin: 0,
                             fontFamily: "monospace",
                           }}
@@ -906,9 +906,9 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                           <div
                             style={{
                               padding: "8px 16px",
-                              backgroundColor: "#5FED83",
-                              color: "#010409",
-                              border: "2px solid #0d1117",
+                              backgroundColor: palette.hireBadgeBackground,
+                              color: palette.hireBadgeText,
+                              border: `2px solid ${palette.artSurface}`,
                               borderRadius: "8px",
                               whiteSpace: "nowrap",
                               fontSize: "14px",
@@ -937,24 +937,24 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                       >
                         <div
                           style={{
-                            color: "#7d8590",
+                            color: palette.muted,
                             fontSize: "16px",
                             fontFamily: "monospace",
                           }}
                         >
-                          <span style={{ color: "#ffffff", fontWeight: "700" }}>
+                          <span style={{ color: palette.bodyText, fontWeight: "700" }}>
                             {user.followers.toLocaleString()}
                           </span>{" "}
                           followers
                         </div>
                         <div
                           style={{
-                            color: "#7d8590",
+                            color: palette.muted,
                             fontSize: "16px",
                             fontFamily: "monospace",
                           }}
                         >
-                          <span style={{ color: "#ffffff", fontWeight: "700" }}>
+                          <span style={{ color: palette.bodyText, fontWeight: "700" }}>
                             {user.public_repos.toLocaleString()}
                           </span>{" "}
                           repos
@@ -962,13 +962,13 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                         {contributions > 0 && (
                           <div
                             style={{
-                              color: "#7d8590",
+                              color: palette.muted,
                               fontSize: "16px",
                               fontFamily: "monospace",
                             }}
                           >
                             <span
-                              style={{ color: "#ffffff", fontWeight: "700" }}
+                              style={{ color: palette.bodyText, fontWeight: "700" }}
                             >
                               {contributions.toLocaleString()}
                             </span>{" "}
@@ -978,14 +978,14 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                         {extendedStats.totalStars > 0 && (
                           <div
                             style={{
-                              color: "#7d8590",
+                              color: palette.muted,
                               fontSize: "16px",
                               fontFamily: "monospace",
                             }}
                           >
                             ⭐{" "}
                             <span
-                              style={{ color: "#ffffff", fontWeight: "700" }}
+                              style={{ color: palette.bodyText, fontWeight: "700" }}
                             >
                               {extendedStats.totalStars.toLocaleString()}
                             </span>{" "}
@@ -1002,7 +1002,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                           gap: "16px",
                           fontSize: "14px",
                           fontFamily: "monospace",
-                          color: "#7d8590",
+                          color: palette.muted,
                           marginBottom: "16px",
                         }}
                       >
@@ -1020,7 +1020,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                               target="_blank"
                               rel="noopener noreferrer"
                               style={{
-                                color: "#7d8590",
+                                color: palette.muted,
                                 textDecoration: "none",
                               }}
                             >
@@ -1042,7 +1042,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                         <div
                           style={{
                             fontSize: "13px",
-                            color: "#c9d1d9",
+                            color: palette.bio,
                             fontFamily: "monospace",
                             fontStyle: "italic",
                             marginBottom: "16px",
@@ -1065,7 +1065,7 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                         <div
                           style={{
                             fontSize: "12px",
-                            color: "#7d8590",
+                            color: palette.muted,
                             marginBottom: "12px",
                             fontFamily: "monospace",
                             textTransform: "uppercase",
@@ -1096,11 +1096,11 @@ const ReadmeBanner = forwardRef<ReadmeBannerRef, ReadmeBannerProps>(
                                 }}
                               />
                               <span
-                                style={{ color: "#ffffff", fontWeight: "600" }}
+                                style={{ color: palette.bodyText, fontWeight: "600" }}
                               >
                                 {lang.name}
                               </span>
-                              <span style={{ color: "#7d8590" }}>
+                              <span style={{ color: palette.muted }}>
                                 ({lang.count})
                               </span>
                             </div>

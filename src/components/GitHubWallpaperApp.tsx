@@ -19,6 +19,10 @@ import { useState, useRef } from "preact/hooks";
 import { flushSync } from "preact/compat";
 import type { JSX } from "preact";
 import { isValidGitHubUsername } from "../utils/sanitize";
+import {
+  GENERATOR_THEMES,
+  type GeneratorTheme,
+} from "../utils/generatorThemes";
 import WallpaperGenerator, {
   type WallpaperGeneratorRef,
 } from "./WallpaperGenerator";
@@ -65,6 +69,7 @@ const BACKGROUND_THEMES = {
   "github-universe-blue": { label: "GitHub Universe Blue" },
   "universe-octocanvas": { label: "Universe Octocanvas" },
   "github-dark": { label: "GitHub Dark" },
+  "violet-overdrive": { label: "Violet Overdrive" },
 };
 
 // Avatar filter options
@@ -95,11 +100,13 @@ export default function GitHubWallpaperApp() {
     "grayscale" | "color"
   >("grayscale");
   const [devemonAvailableForHire, setDevemonAvailableForHire] = useState(false);
+  const [devemonTheme, setDevemonTheme] = useState<GeneratorTheme>("default");
 
   // README Banner form controls
   const [bannerArtType, setBannerArtType] = useState<
     "none" | "ascii" | "pixel" | "grayscale" | "color"
   >("grayscale");
+  const [bannerTheme, setBannerTheme] = useState<GeneratorTheme>("default");
   const [bannerAvailableForHire, setBannerAvailableForHire] = useState(false);
   const [bannerShowWebsite, setBannerShowWebsite] = useState(true);
   const [bannerShowJoinDate, setBannerShowJoinDate] = useState(true);
@@ -476,14 +483,19 @@ export default function GitHubWallpaperApp() {
                         </label>
                         <PrimerSelect
                           id="devemon-theme-selector"
-                          value="default"
-                          disabled={true}
+                          value={devemonTheme}
+                          onChange={(value) =>
+                            setDevemonTheme(value as GeneratorTheme)
+                          }
                         >
-                          <option value="default">Default</option>
+                          {Object.entries(GENERATOR_THEMES).map(
+                            ([key, theme]) => (
+                              <option key={key} value={key}>
+                                {theme.label}
+                              </option>
+                            )
+                          )}
                         </PrimerSelect>
-                        <p className={styles.HelpText}>
-                          More themes coming soon!
-                        </p>
                       </div>
 
                       <div>
@@ -500,6 +512,30 @@ export default function GitHubWallpaperApp() {
                   {/* Banner Controls */}
                   {selectedTab === 2 && (
                     <div className={styles.TabSections}>
+                      <div>
+                        <label
+                          htmlFor="banner-theme-selector"
+                          className={styles.ControlLabel}
+                        >
+                          Background Theme
+                        </label>
+                        <PrimerSelect
+                          id="banner-theme-selector"
+                          value={bannerTheme}
+                          onChange={(value) =>
+                            setBannerTheme(value as GeneratorTheme)
+                          }
+                        >
+                          {Object.entries(GENERATOR_THEMES).map(
+                            ([key, theme]) => (
+                              <option key={key} value={key}>
+                                {theme.label}
+                              </option>
+                            )
+                          )}
+                        </PrimerSelect>
+                      </div>
+
                       <div>
                         <label
                           htmlFor="banner-avatar-style-selector"
@@ -601,6 +637,7 @@ export default function GitHubWallpaperApp() {
               user={userData}
               avatarFilter={devemonAvatarFilter}
               availableForHire={devemonAvailableForHire}
+              theme={devemonTheme}
             />
           </div>
 
@@ -620,6 +657,7 @@ export default function GitHubWallpaperApp() {
               showWebsite={bannerShowWebsite}
               showJoinDate={bannerShowJoinDate}
               showBio={bannerShowBio}
+              theme={bannerTheme}
             />
           </div>
 

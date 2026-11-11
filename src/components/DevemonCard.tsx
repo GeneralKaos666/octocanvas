@@ -20,11 +20,13 @@ import styles from "./DevemonCard.module.css";
 import sharedStyles from "./shared.module.css";
 import { copyPngBlobToClipboard } from "../utils/imageExport";
 import { downloadElementAsPng, elementToPngBlob } from "../utils/domExport";
+import { GENERATOR_THEME_PALETTES, type GeneratorTheme } from "../utils/generatorThemes";
 
 interface DevemonCardProps {
   user: GitHubUser;
   avatarFilter: "grayscale" | "color";
   availableForHire: boolean;
+  theme?: GeneratorTheme;
 }
 
 export interface DevemonCardRef {
@@ -78,7 +80,9 @@ interface ExtendedStats {
 type AvatarFilterType = "grayscale" | "color";
 
 const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
-  ({ user, avatarFilter, availableForHire }, ref) => {
+  ({ user, avatarFilter, availableForHire, theme = "default" }, ref) => {
+    const palette = GENERATOR_THEME_PALETTES[theme];
+    const isViolet = theme === "violet-overdrive";
     const cardRef = useRef<HTMLDivElement>(null);
     const badgeRef = useRef<HTMLDivElement>(null);
     const [extendedStats, setExtendedStats] = useState<ExtendedStats>({
@@ -357,9 +361,12 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
           <div
             ref={cardRef}
             data-devemon-card="true"
+            data-theme={theme}
             className={styles.Card}
             style={{
-              background: `linear-gradient(135deg, ${rarityInfo.color}15, ${rarityInfo.color}30)`,
+              background: isViolet
+                ? palette.background
+                : `linear-gradient(135deg, ${rarityInfo.color}15, ${rarityInfo.color}30)`,
             }}
           >
             {/* Holographic border effect */}
@@ -528,7 +535,7 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
                       {extendedStats.topLanguages.map((lang) => (
                         <span
                           key={lang}
-                          className="text-xs font-mono px-2 py-1 rounded bg-universe-green/20 text-universe-green-light"
+                          className={`text-xs font-mono px-2 py-1 rounded ${isViolet ? "bg-[#C77DFF]/20 text-[#C77DFF]" : "bg-universe-green/20 text-universe-green-light"}`}
                         >
                           {lang}
                         </span>
@@ -560,9 +567,12 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
         <div className="fixed -left-[9999px] top-0">
           <div
             ref={badgeRef}
+            data-theme={theme}
             className="relative w-[320px] h-[240px] rounded-xl overflow-visible shadow-2xl"
             style={{
-              background: `linear-gradient(135deg, ${rarityInfo.color}15, ${rarityInfo.color}30)`,
+              background: isViolet
+                ? palette.background
+                : `linear-gradient(135deg, ${rarityInfo.color}15, ${rarityInfo.color}30)`,
             }}
           >
             {/* Holographic border effect */}
@@ -577,7 +587,7 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
 
             {/* Badge Content - Horizontal Layout */}
             <div
-              className="relative z-10 h-full flex flex-col justify-center gap-2 p-2.5 bg-gradient-to-br from-universe-dark-bg/95 via-universe-dark-surface/95 to-universe-dark-bg/95 rounded-xl border-4"
+              className={`relative z-10 h-full flex flex-col justify-center gap-2 p-2.5 rounded-xl border-4 ${isViolet ? "bg-gradient-to-br from-black/95 via-[#0D0714]/95 to-black/95" : "bg-gradient-to-br from-universe-dark-bg/95 via-universe-dark-surface/95 to-universe-dark-bg/95"}`}
               style={{ borderColor: rarityInfo.color }}
             >
               {/* Top Section: Avatar and Info */}
@@ -677,24 +687,24 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
 
                   {/* Stats Grid */}
                   <div className="grid grid-cols-3 gap-1.5">
-                    <div className="bg-universe-dark-bg/50 rounded p-1.5 border borderColor-muted flex flex-col items-center justify-center">
-                      <div className="text-universe-green font-mono uppercase text-[8px] leading-tight">
+                    <div className={`rounded p-1.5 border borderColor-muted flex flex-col items-center justify-center ${isViolet ? "bg-black/50" : "bg-universe-dark-bg/50"}`}>
+                      <div className={`font-mono uppercase text-[8px] leading-tight ${isViolet ? "text-[#00FF9C]" : "text-universe-green"}`}>
                         Repos
                       </div>
                       <div className="text-white font-bold font-mono text-sm mt-0.5">
                         {user.public_repos}
                       </div>
                     </div>
-                    <div className="bg-universe-dark-bg/50 rounded p-1.5 border borderColor-muted flex flex-col items-center justify-center">
-                      <div className="text-universe-green font-mono uppercase text-[8px] leading-tight">
+                    <div className={`rounded p-1.5 border borderColor-muted flex flex-col items-center justify-center ${isViolet ? "bg-black/50" : "bg-universe-dark-bg/50"}`}>
+                      <div className={`font-mono uppercase text-[8px] leading-tight ${isViolet ? "text-[#00FF9C]" : "text-universe-green"}`}>
                         Followers
                       </div>
                       <div className="text-white font-bold font-mono text-sm mt-0.5">
                         {user.followers}
                       </div>
                     </div>
-                    <div className="bg-universe-dark-bg/50 rounded p-1.5 border borderColor-muted flex flex-col items-center justify-center">
-                      <div className="text-universe-green font-mono uppercase text-[8px] leading-tight">
+                    <div className={`rounded p-1.5 border borderColor-muted flex flex-col items-center justify-center ${isViolet ? "bg-black/50" : "bg-universe-dark-bg/50"}`}>
+                      <div className={`font-mono uppercase text-[8px] leading-tight ${isViolet ? "text-[#00FF9C]" : "text-universe-green"}`}>
                         Stars
                       </div>
                       <div className="text-white font-bold font-mono text-sm mt-0.5">
@@ -709,7 +719,7 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
                       {extendedStats.topLanguages.slice(0, 3).map((lang) => (
                         <span
                           key={lang}
-                          className="text-[9px] font-mono px-2 py-1 rounded bg-universe-green/20 text-universe-green-light"
+                          className={`text-[9px] font-mono px-2 py-1 rounded ${isViolet ? "bg-[#C77DFF]/20 text-[#C77DFF]" : "bg-universe-green/20 text-universe-green-light"}`}
                         >
                           {lang}
                         </span>
@@ -739,9 +749,9 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
                           textTransform: "uppercase",
                           letterSpacing: "0.05em",
                           borderRadius: "4px",
-                          backgroundColor: "#5FED83",
-                          color: "#010409",
-                          border: "2px solid #0d1117",
+                          backgroundColor: palette.hireBadgeBackground,
+                          color: palette.hireBadgeText,
+                          border: `2px solid ${isViolet ? "#000000" : "#0d1117"}`,
                           whiteSpace: "nowrap",
                           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
                         }}

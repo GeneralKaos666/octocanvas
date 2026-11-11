@@ -104,6 +104,21 @@ const BACKGROUND_THEMES = {
       end: "#0D1117",
     },
   },
+  "violet-overdrive": {
+    label: "Violet Overdrive",
+    gradient: {
+      // Termux theme: true black base with deep violet (color0)
+      stops: [
+        { offset: "0%", color: "#0D0714" },
+        { offset: "100%", color: "#000000" },
+      ],
+      angle: 135,
+    },
+    overlay: {
+      start: "#0D0714",
+      end: "#000000",
+    },
+  },
 };
 
 type BackgroundThemeKey = keyof typeof BACKGROUND_THEMES;
@@ -397,13 +412,23 @@ const WallpaperGenerator = forwardRef<
     // Get selected theme colors
     const theme = BACKGROUND_THEMES[selectedTheme];
 
-    // Set text colors based on theme (white for GitHub Dark, black for others)
-    const textColor = selectedTheme === "github-dark" ? "#FFFFFF" : "#000000";
-    const handleColor = selectedTheme === "github-dark" ? "#FFFFFF" : "#4F4F4F";
+    // Set text colors based on theme (white for dark themes, black for others)
+    const isDarkTheme =
+      selectedTheme === "github-dark" || selectedTheme === "violet-overdrive";
+    const textColor = isDarkTheme ? "#FFFFFF" : "#000000";
+    const handleColor = selectedTheme === "violet-overdrive"
+      ? "#D8CCF0"
+      : isDarkTheme
+        ? "#FFFFFF"
+        : "#4F4F4F";
 
     // Set avatar border color based on theme
     const avatarBorderColor =
-      selectedTheme === "github-universe-blue" ? "#9EECFF" : "#5fed83";
+      selectedTheme === "github-universe-blue"
+        ? "#9EECFF"
+        : selectedTheme === "violet-overdrive"
+          ? "#C77DFF"
+          : "#5fed83";
 
     // Center positioning
     const centerX = width / 2;
@@ -484,6 +509,25 @@ const WallpaperGenerator = forwardRef<
               } else {
                 fillColor = "#9EECFF"; // Light blue for lowest contributions
               }
+            }
+          } else if (selectedTheme === "violet-overdrive") {
+            // Violet Overdrive color scheme (Termux theme, neon on true black)
+            if (day.contributionCount > 0) {
+              opacityAttr = ""; // Remove opacity for colored squares (100% opaque)
+              if (day.contributionCount >= 15) {
+                fillColor = "#FF2ED1"; // Hot magenta (color5)
+              } else if (day.contributionCount >= 10) {
+                fillColor = "#C77DFF"; // Bright purple (color13)
+              } else if (day.contributionCount >= 5) {
+                fillColor = "#A855F7"; // Purple (cursor)
+              } else if (day.contributionCount >= 2) {
+                fillColor = "#7AB8FF"; // Soft blue (color12)
+              } else {
+                fillColor = "#00F0FF"; // Cyan (color6)
+              }
+            } else {
+              fillColor = "#0D0714"; // Faint violet-black empty cell (color0)
+              opacityAttr = "";
             }
           } else {
             // Green color scheme for other themes
