@@ -753,7 +753,7 @@ export default function GitHubWallpaperApp() {
           <a href="https://github.com/features/copilot">GitHub Copilot</a>
         </p>
         <p className={styles.FooterCopyright}>
-          © <a href="https://githubuniverse.com/">2025 GitHub Universe</a> | <a href="https://github.com/github/octocanvas"><Icon name="mark-github" size="functional" color="white" className="align-middle" /> Octocanvas on GitHub</a>
+          © <a href="https://githubuniverse.com/">2025 GitHub Universe</a> | <a href="https://generalkaos666.github.io/octocanvas/"><Icon name="mark-github" size="functional" color="white" className="align-middle" /> Octocanvas</a>
         </p>
       </footer>
     </div>

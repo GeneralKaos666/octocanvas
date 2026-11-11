@@ -35,6 +35,9 @@ jobs:
         run: npm ci
       
       - name: Build site
+        env:
+          SITE: https://generalkaos666.github.io
+          BASE_URL: /octocanvas/
         run: npm run build
       
       - name: Upload artifact
