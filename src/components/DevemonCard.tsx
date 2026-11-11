@@ -118,11 +118,11 @@ const DevemonCard = forwardRef<DevemonCardRef, DevemonCardProps>(
         extendedStats.totalStars * 3 +
         extendedStats.totalForks * 2;
 
-      if (powerLevel >= 5000) return "mythical";
-      if (powerLevel >= 2000) return "legendary";
-      if (powerLevel >= 800) return "epic";
-      if (powerLevel >= 300) return "rare";
-      if (powerLevel >= 100) return "uncommon";
+      if (powerLevel >= 40) return "mythical";
+      if (powerLevel >= 20) return "legendary";
+      if (powerLevel >= 10) return "epic";
+      if (powerLevel >= 5) return "rare";
+      if (powerLevel >= 1) return "uncommon";
       return "common";
     };
 
